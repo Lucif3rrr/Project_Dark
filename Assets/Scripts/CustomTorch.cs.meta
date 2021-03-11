@@ -3,7 +3,13 @@ guid: 368e0d9a7ebc7b343a06c85bcde4b165
 MonoImporter:
   externalObjects: {}
   serializedVersion: 2
-  defaultReferences: []
+  defaultReferences:
+  - selfLight: {instanceID: 0}
+  - torch: {instanceID: 0}
+  - audioSource: {instanceID: 0}
+  - TorchSound: {instanceID: 0}
+  - battery: {instanceID: 0}
+  - move: {instanceID: 0}
   executionOrder: 0
   icon: {instanceID: 0}
   userData: 

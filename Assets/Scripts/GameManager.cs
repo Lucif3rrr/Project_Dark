@@ -25,6 +25,8 @@ public class GameManager : NetworkBehaviour
 
     [SyncVar] public int round = 1;
 
+    public AudioSource audioSource;
+
     public void Awake()
     {
         if (_instance != null && _instance != this)
@@ -46,6 +48,9 @@ public class GameManager : NetworkBehaviour
         SetSpawnPoints();
 
         SpawnPlayers();
+
+        audioSource = GetComponent<AudioSource>();
+        audioSource.Play();
     }
 
     private void Update()

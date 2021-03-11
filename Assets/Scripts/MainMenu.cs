@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using TMPro;
 using UnityEngine.InputSystem;
+using UnityEngine.Audio;
 
 public class MainMenu : MonoBehaviour
 {
@@ -18,10 +19,15 @@ public class MainMenu : MonoBehaviour
     [SerializeField] GameObject lobbyPanel;
     [SerializeField] TMP_InputField lobbyCodeInput;
 
+    public AudioSource audioSource;
+    public AudioClip MouseOver;
+    public AudioClip PressedDown;
+
     [SerializeField] TMP_InputField playerNameInput;
 
     private void Start()
     {
+        audioSource = GetComponent<AudioSource>();
         nm = NetworkManagerCustom.Instance;
 
         if (!PlayerPrefs.HasKey("playerName"))
@@ -30,7 +36,6 @@ public class MainMenu : MonoBehaviour
         }
 
         playerNameInput.text = PlayerPrefs.GetString("playerName");
-
         nm.lrm.diconnectedFromRelay.AddListener(FailedToConnectToRelay);
     }
 
@@ -47,6 +52,7 @@ public class MainMenu : MonoBehaviour
         serverIsOfflinePanel.SetActive(false);
         lobbyPanel.SetActive(false);
         helpPanel.SetActive(false);
+        audioSource.PlayOneShot(PressedDown);
     }
 
     public void LoadMainMenuPanel()
@@ -58,17 +64,20 @@ public class MainMenu : MonoBehaviour
         serverIsOfflinePanel.SetActive(false);
         lobbyPanel.SetActive(false);
         helpPanel.SetActive(false);
+        audioSource.PlayOneShot(PressedDown);
     }
 
     public void LoadHelpPanel()
     {
         mainMenuPanel.SetActive(false);
         helpPanel.SetActive(true);
+        audioSource.PlayOneShot(PressedDown);
     }
 
     public void OfflineLobby()
     {
         nm.CreateLobby();
+        audioSource.PlayOneShot(PressedDown);
     }
 
     public void OnlineLobby()
@@ -78,17 +87,20 @@ public class MainMenu : MonoBehaviour
         connectingPanel.SetActive(true);
         nm.ConnectToRelay();
         StartCoroutine(ConnectingToRelay());
+        audioSource.PlayOneShot(PressedDown);
     }
 
     public void CreateLobby()
     {
         nm.CreateLobby();
+        audioSource.PlayOneShot(PressedDown);
     }
 
     public void JoinLobby()
     {
         nm.networkAddress = lobbyCodeInput.text;
         nm.StartClient();
+        audioSource.PlayOneShot(PressedDown);
     }
 
     public void FailedToConnectToRelay()
@@ -101,6 +113,7 @@ public class MainMenu : MonoBehaviour
 
     public void QuitGame()
     {
+        audioSource.PlayOneShot(PressedDown);
         Application.Quit();
     }
 
@@ -124,5 +137,10 @@ public class MainMenu : MonoBehaviour
             playerNameInput.text = "SomeDumbName";
             PlayerPrefs.SetString("playerName", playerNameInput.text);
         }
+    }
+
+    public void OnMouseOver()
+    {
+        audioSource.PlayOneShot(MouseOver);
     }
 }

@@ -56,6 +56,11 @@ public class PlatformerMovement : NetworkBehaviour
     [SerializeField] private Collider2D platformCollider;
     [SerializeField] private Collider2D hitCollider;
 
+    //Audio
+    public AudioSource audioSource;
+    //public AudioClip Footsteps;
+    public AudioClip JumpSound;
+
     //private void Awake()
     //{
     //    controls = new Controls();
@@ -76,6 +81,8 @@ public class PlatformerMovement : NetworkBehaviour
         sprite = GetComponent<SpriteRenderer>() ? GetComponent<SpriteRenderer>() : null;
 
         initGravity = rb.gravityScale;
+
+        audioSource = GetComponent<AudioSource>();
     }
 
     // Update is called once per frame
@@ -145,6 +152,7 @@ public class PlatformerMovement : NetworkBehaviour
         if (!isGrounded) return;
         float yVelo = jumpForce;
         rb.velocity = new Vector2(rb.velocity.x, yVelo);
+        audioSource.PlayOneShot(JumpSound);
     }
 
     private void PlatformCheck()
@@ -208,4 +216,5 @@ public class PlatformerMovement : NetworkBehaviour
         yield return new WaitForSeconds(jumpThroughDelay);
         jumpingThroughPlatform = false;
     }
+
 }
