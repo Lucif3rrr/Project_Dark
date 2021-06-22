@@ -15,6 +15,9 @@ public class CustomTorch : MonoBehaviour
     [SerializeField] private float torchRangeOffset;
     [SerializeField] private LayerMask torchBlockLayer;
 
+    public AudioSource audioSource;
+    public AudioClip TorchSound;
+
     public bool torchOn;
     private float radius;
 
@@ -26,6 +29,7 @@ public class CustomTorch : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        audioSource = GetComponent<AudioSource>();
         battery = GetComponent<TorchBattery>() ? GetComponent<TorchBattery>() : null;
     }
 
@@ -56,6 +60,7 @@ public class CustomTorch : MonoBehaviour
         selfLight.SetActive(true);
         torch.enabled = true;
         torchOn = true;
+        audioSource.PlayOneShot(TorchSound);
     }
 
     public void TorchOff()
@@ -63,6 +68,7 @@ public class CustomTorch : MonoBehaviour
         selfLight.SetActive(false);
         torch.enabled = false;
         torchOn = false;
+        audioSource.PlayOneShot(TorchSound);
     }
 
     private void TorchRange()

@@ -7,6 +7,9 @@ public class GameManager : NetworkBehaviour
 {
     private static GameManager _instance;
 
+    //private AudioManager audioManager;
+    public AudioSource audioSource;
+
     public static GameManager Instance { get { return _instance; } }
 
     private NetworkManagerCustom nm;
@@ -40,10 +43,14 @@ public class GameManager : NetworkBehaviour
         nm = NetworkManagerCustom.Instance;
         avatarList = new List<GameObject>();
         if (isClientOnly) return;
+        //audioManager = AudioManager.instance;
+        audioSource = GetComponent<AudioSource>();
+        audioSource.Play();
 
         SetSpawnPoints();
 
         SpawnPlayers();
+        
     }
 
     private void Update()

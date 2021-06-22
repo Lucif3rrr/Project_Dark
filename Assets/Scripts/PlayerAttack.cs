@@ -16,6 +16,14 @@ public class PlayerAttack : NetworkBehaviour
 
     [SerializeField] private Light2D attackEffects;
 
+    public AudioSource audioSource;
+    public AudioClip[] clipArrays;
+
+    private void Start()
+    {
+        audioSource = GetComponent<AudioSource>();
+    }
+
     private void Update()
     {
         PlayerDetection();
@@ -49,6 +57,7 @@ public class PlayerAttack : NetworkBehaviour
             if (!isClientOnly) target.ModifyHealth(-1);
             attackEffects.intensity = Random.Range(0.8f, 1.0f);
             StartCoroutine("AttackCooldown");
+            audioSource.PlayOneShot(RandomClip());
         }
     }
 
@@ -81,5 +90,10 @@ public class PlayerAttack : NetworkBehaviour
     private void OnDrawGizmos()
     {
         Gizmos.DrawWireSphere(transform.position, attackRadius);
+    }
+
+    AudioClip RandomClip()
+    {
+        return clipArrays[Random.Range(0, clipArrays.Length)];
     }
 }

@@ -16,8 +16,12 @@ public class MainMenu : MonoBehaviour
     [SerializeField] GameObject serverIsOfflinePanel;
     [SerializeField] GameObject lobbyPanel;
     [SerializeField] TMP_InputField lobbyCodeInput;
-
     [SerializeField] TMP_InputField playerNameInput;
+
+    private AudioManager audioManager;
+
+    //public string MouseOverClip;
+    public string PressedDown;
 
     private void Start()
     {
@@ -31,6 +35,8 @@ public class MainMenu : MonoBehaviour
         playerNameInput.text = PlayerPrefs.GetString("playerName");
 
         nm.lrm.diconnectedFromRelay.AddListener(FailedToConnectToRelay);
+
+        audioManager = AudioManager.instance;
     }
 
     public void LoadGamePanel()
@@ -45,6 +51,7 @@ public class MainMenu : MonoBehaviour
         connectingPanel.SetActive(false);
         serverIsOfflinePanel.SetActive(false);
         lobbyPanel.SetActive(false);
+        audioManager.PlaySound(PressedDown);
     }
 
     public void LoadMainMenuPanel()
@@ -55,16 +62,14 @@ public class MainMenu : MonoBehaviour
         connectingPanel.SetActive(false);
         serverIsOfflinePanel.SetActive(false);
         lobbyPanel.SetActive(false);
-    }
-
-    public void LoadOptionsPanel()
-    {
+        audioManager.PlaySound(PressedDown);
 
     }
 
     public void OfflineLobby()
     {
         nm.CreateLobby();
+        audioManager.PlaySound(PressedDown);
     }
 
     public void OnlineLobby()
@@ -74,17 +79,20 @@ public class MainMenu : MonoBehaviour
         connectingPanel.SetActive(true);
         nm.ConnectToRelay();
         StartCoroutine(ConnectingToRelay());
+        audioManager.PlaySound(PressedDown);
     }
 
     public void CreateLobby()
     {
         nm.CreateLobby();
+        audioManager.PlaySound(PressedDown);
     }
 
     public void JoinLobby()
     {
         nm.networkAddress = lobbyCodeInput.text;
         nm.StartClient();
+        audioManager.PlaySound(PressedDown);
     }
 
     public void FailedToConnectToRelay()
@@ -98,6 +106,7 @@ public class MainMenu : MonoBehaviour
     public void QuitGame()
     {
         Application.Quit();
+        audioManager.PlaySound(PressedDown);
     }
 
     IEnumerator ConnectingToRelay()
@@ -121,4 +130,9 @@ public class MainMenu : MonoBehaviour
             PlayerPrefs.SetString("playerName", playerNameInput.text);
         }
     }
+
+    /*public void OnMouseOver()
+    {
+        audioManager.PlaySound(MouseOverClip);
+    }*/
 }
